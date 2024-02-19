@@ -1,3 +1,4 @@
+import javax.xml.datatype.Duration;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Scanner;
@@ -7,6 +8,10 @@ public class Calculator {
     LocalDate firstDayInPrison;
     Period imprisonment;
     String summary;
+    int yearOfImprisonment;
+    int monthsOfImprisonment;
+    int dayOfImprisonment;
+
     public Calculator() {
     }
 
@@ -27,11 +32,11 @@ public class Calculator {
 
     public void imprisonment(Scanner scanner) {
         System.out.println("Wpisz lata");
-        int yearOfImprisonment = scanner.nextInt();
+        yearOfImprisonment = scanner.nextInt();
         System.out.println("Wpisz miesiące");
-        int monthsOfImprisonment = scanner.nextInt();
-        final int dayOfImprisonment = 0;
-        imprisonment = Period.of(yearOfImprisonment,monthsOfImprisonment,dayOfImprisonment);
+        monthsOfImprisonment = scanner.nextInt();
+        dayOfImprisonment = 0;
+        imprisonment = Period.of(yearOfImprisonment, monthsOfImprisonment, dayOfImprisonment);
         summary = yearOfImprisonment + " lat " + monthsOfImprisonment +
                 " miesięcy pozbawienia wolności";
     }
@@ -46,8 +51,21 @@ public class Calculator {
         firstDayInPrison = LocalDate.of(imprisonmentStartYear, imprisonmentStarMonth, imprisonmentStartDay);
     }
 
-
-
+    public Period calculateParole() {
+        if (yearOfImprisonment < 25) {
+            int yearsOfImprisonmentInMonths = yearOfImprisonment * 12;
+            int totalMonths = yearsOfImprisonmentInMonths + monthsOfImprisonment;
+            int calculatedMonthsOfParole = totalMonths / 2;
+            int calculatedDaysOfParole = totalMonths % 2;
+            Period periodOfParole = Period.of(0, calculatedMonthsOfParole, calculatedDaysOfParole);
+            return periodOfParole.normalized();
+//            Period paroleAfterHalfImprisonment = Period.of(yearOfImprisonment,
+//                    monthsOfImprisonment,dayOfImprisonment);
+//            paroleAfterHalfImprisonment.getYears() / 2;
+        } else {
+            return null;
+        }
+    }
 
 
 }

@@ -28,7 +28,13 @@ public class Main {
                 " rozpoczęto wykonywanie kary pozbawienia wolności");
         System.out.println("Do tej pory wykonano " + formatPeriodToString(calculator.timeInPrison())
                 + " kary pozbawienia wolności");
-        System.out.println();
+        System.out.println("Zgodnie z art. 78. § 1. Skazanego można warunkowo zwolnić po odbyciu co najmniej\n" +
+                "połowy kary, a jeżeli wymierzono karę pozbawienia wolności na czas nie krótszy niż\n" +
+                "25 lat – po odbyciu co najmniej 15 lat kary.");
+
+// data od kiedy siedzi plus period.normalized
+      //System.out.println("Sąd może zastosować warunkowe przedterminowe zwolnienie z dniem ");
+
         scanner.close();
     }
 
@@ -37,6 +43,4 @@ public class Main {
                 + " miesięcy " + period.getDays() + " dni";
         return format;
     }
-
-
 }
