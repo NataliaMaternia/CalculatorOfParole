@@ -13,6 +13,9 @@ public class Calculator {
     int dayOfImprisonment;
     boolean lifeImprisonment;
     boolean ifLifeImprisonment;
+    boolean recidivismP;
+    boolean recidivismW;
+    boolean recidivismU;
 
     public Calculator() {
     }
@@ -21,7 +24,6 @@ public class Calculator {
         LocalDate localDate = LocalDate.now();
         return localDate;
     }
-
 
     public Period timeInPrison() {
         if (localDate().isBefore(firstDayInPrison)) {
@@ -39,7 +41,6 @@ public class Calculator {
         return ifLifeImprisonment;
     }
 
-
     public void imprisonment(Scanner scanner) {
         if (!ifLifeImprisonment) {
             System.out.println("Wpisz karę orzeczoną przez Sąd. Przykład: Jeżeli Sąd orzekł karę" +
@@ -56,7 +57,34 @@ public class Calculator {
         }
     }
 
+    public boolean recidivismP(Scanner scanner) {
+        System.out.println("Czy skazanie nastapiło w warunkach recydywy podstawowej? " +
+                "- art. 64§1 kodeksu karnego. Wpisz 'tak' lub 'nie' ");
+        recidivismP = scanner.next().contains("tak");
+        return recidivismP;
+    }
+    public boolean recidivismW(Scanner scanner) {
+        if (!recidivismP) {
+            System.out.println("Czy skazanie nastapiło w warunkach recydywy wielokrotnej? " +
+                    "- art.64§2 kodeksu karnego lub na podstawie art. 64a kodeksu karnego? " +
+                    "Wpisz 'tak' lub 'nie' ");
+            recidivismW = scanner.next().contains("tak");
+        }
+        return recidivismW;
+    }
+    public boolean recidivismU(Scanner scanner) {
+        if (!recidivismP && !recidivismW) {
+            System.out.println("Czy wobec skazanego, wydano prawomocne postanowienie\n" +
+                    "stwierdzające, że bezprawnie utrudniał wykonanie kary pozbawienia wolności");
+            recidivismU = scanner.next().contains("tak");
+        }
+        return recidivismU;
+    }
+
     public void firstDayInPrison(Scanner scanner) {
+        System.out.println("Wpisz datę rozpoczęcia odbywania kary pozbawienia wolności. " +
+                "Przykład: gdy datą rozpoczęcia kary jest 23 luty 2022r., w pole \"rok\" wpisz 2022, " +
+                "w pole \"miesiąc\" wpisz 2, a w pole \"dzień\" wpisz 23");
         System.out.println("Wpisz rok");
         int imprisonmentStartYear = scanner.nextInt();
         System.out.println("Wpisz miesiac");
@@ -68,7 +96,7 @@ public class Calculator {
 
     public LocalDate calculateParole() {
         if (ifLifeImprisonment) {
-            LocalDate lifeImprisonmentTrue = firstDayInPrison.plusYears(25);
+            LocalDate lifeImprisonmentTrue = firstDayInPrison.plusYears(30);
             return lifeImprisonmentTrue;
         } else if (yearOfImprisonment < 25) {
             int yearsOfImprisonmentInMonths = yearOfImprisonment * 12;
