@@ -11,7 +11,6 @@ public class Calculator {
     int yearOfImprisonment;
     int monthsOfImprisonment;
     int dayOfImprisonment;
-    boolean lifeImprisonment;
     boolean ifLifeImprisonment;
     boolean recidivismP;
     boolean recidivismW;
@@ -95,12 +94,12 @@ public class Calculator {
     }
 
     public LocalDate calculateParole() {
+        int yearsOfImprisonmentInMonths = yearOfImprisonment * 12;
+        int totalMonths = yearsOfImprisonmentInMonths + monthsOfImprisonment;
         if (ifLifeImprisonment) {
             LocalDate lifeImprisonmentTrue = firstDayInPrison.plusYears(30);
             return lifeImprisonmentTrue;
         } else if (yearOfImprisonment < 25) {
-            int yearsOfImprisonmentInMonths = yearOfImprisonment * 12;
-            int totalMonths = yearsOfImprisonmentInMonths + monthsOfImprisonment;
             int calculatedMonthsOfParole = totalMonths / 2;
             int calculatedDaysOfParole = totalMonths % 2;
             Period periodOfParole = Period.of(0, calculatedMonthsOfParole, calculatedDaysOfParole);
@@ -108,6 +107,16 @@ public class Calculator {
         } else if (yearOfImprisonment >= 25) {
             LocalDate imprisonmentMoreThan25years = firstDayInPrison.plusYears(15);
             return imprisonmentMoreThan25years;
+        } else if (recidivismP) {
+            int calculatedMonthsOfParole = (totalMonths * 2) / 3;
+            int calculatedDaysOfParole = totalMonths % 2;
+            Period periodOfParole = Period.of(0, calculatedMonthsOfParole, calculatedDaysOfParole);
+            return firstDayInPrison.plus(periodOfParole.normalized());
+        } else if (recidivismW || recidivismU) {
+            int calculatedMonthsOfParole = (totalMonths * 3) / 4;
+            int calculatedDaysOfParole = totalMonths % 2;
+            Period periodOfParole = Period.of(0, calculatedMonthsOfParole, calculatedDaysOfParole);
+            return firstDayInPrison.plus(periodOfParole.normalized());
         }
         return null;
     }

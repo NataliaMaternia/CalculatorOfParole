@@ -14,9 +14,12 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         calculator.lifeImprisonment(scanner);
         calculator.imprisonment(scanner);
+        calculator.recidivismP(scanner);
+        calculator.recidivismW(scanner);
+        calculator.recidivismU(scanner);
         calculator.firstDayInPrison(scanner);
 
-        System.out.println("Sąd orzekł karę: " + calculator.imprisonment);
+        System.out.println("Sąd orzekł karę: " + calculator.summary);
 
         System.out.println("W dniu " + calculator.firstDayInPrison +
                 " rozpoczęto wykonywanie kary pozbawienia wolności");
